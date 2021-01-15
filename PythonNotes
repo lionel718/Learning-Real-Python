@@ -1,0 +1,253 @@
+Scope:
+	https://hyperskill.org/learn/step/6322
+	§ LEGB rule
+		A variable resolution in Python follows the LEGB rule. That means that the interpreter looks for a name in the following order:
+		1. Local.
+		2. Enclosing. Names of the local scope in all enclosing functions from inner to outer.
+		3. Globals.
+		4. Built-in.
+	§ About "global" and "nonlocal"
+		global:
+			You can't change the value of a global variable inside the function wiithout using the global keywords:
+
+			"""
+			x = 1
+			def print_global():
+			    print(x)
+
+			print_global()  # 1
+
+			def modify_global():
+			    print(x)
+			    x = x + 1
+
+			modify_global()  # UnboundLocalError
+			"""
+
+			An error is raised because we are trying to assign to a local variable the expreesion that contains x and the interpreter can't find this variable in a local scope.
+			备注: Python是可以初始化变量的时候直接赋值的, 例如相继执行 x = 1, a = x + 1, 这是不会报错的. 上例函数 modify_global() 中, x是全局变量 (global variable), 因此可以使用. 如果语句 x = x + 1 改为 a = x + 1 也不会出错, 因为解释器默认为 a 是一个局部变量 (local variable). 我理解原语句报错的原因是, print(x) 引用了 x, 遵循LEGB法则, x 只能是全局变量了 (在先执行的语句这里将 x 定性). 然后解释器在执行 x = x + 1 的时候, 相当于对|全局变量|进行修改, 错误. 解决方案如下. 给我启发的代码有下面几个:
+
+			"""
+			x = 1
+			def func():
+				print(x)
+			func()			# 不会报错, 输出1
+
+			x = 1
+			def func():
+				x = 2
+			func()			# 不会报错
+			print(x)		# 输出1
+
+			x = 1
+			def func():
+				x = 2
+				print(x)
+			func()			# 不会报错, 输出2
+
+			x = 1
+			def func():
+				print(x)	# 此时使用的全局变量 x = 1, “被引用”
+				x = 2		# 函数内部想要修改全局变量, 不可行, 所以报错信息是“局部变量 x 在赋值前已经被引用”
+			func()			# 报错, local variable 'x' referenced before assignment
+			"""
+
+
+			# 解决方案
+			"""
+			x = 1
+			def global_func():
+			    global x
+			    print(x)
+			    x = x + 1
+
+			global_func()  # 1
+			global_func()  # 2
+			global_func()  # 3
+			"""
+
+		nonlocal:
+			nonlocal keyword lets us assign to variables in the outer (but not global) scope:
+
+			"""
+			def func():
+			    x = 1
+			    def inner():
+			        x = 2
+			        print("inner:", x)
+			    inner()
+			    print("outer:", x)
+
+			def nonlocal_func():
+			    x = 1
+			    def inner():
+			        nonlocal x
+			        x = 2
+			        print("inner:", x)
+			    inner()
+			    print("outer:", x)
+
+			func()  # inner: 2
+			        # outer: 1
+
+			nonlocal_func()  # inner: 2
+			                 # outer: 2
+			"""
+
+			备注: 我将其理解为, 在内部的函数使用 nonlocal 对一个变量进行声明后, 外部函数 (还不是最外层函数) 就得接受内部函数修改之后的改变量了.
+		Though global and nonlocal are present in the language, they are not often used in practice, because these keywords make programs less predictable and harder to understand.
+		备注: 这两个关键字威力强大, 但是最好还是不要轻易使用, 容易混淆逻辑. 解决的办法是, 把想要修改的变量传入参数并返回.
+	§ Why do we use global?
+		Well, as was already mentioned above, global scope is one of the easiest ways to retain information between function calls: while local variables disappear the moment the function returns, global variables remain and help functions to transfer the necessary data between each other. Similarly, global variables can enable the communication between more complex processes, such as threads in multithreaded applications.
+
+Introducton to OOP:
+	https://hyperskill.org/learn/step/3614
+	§ Fundamentals
+		Object-oriented programming (OOP) is a programming paradigm based on the concept of objects that interact with each other to perform thee program functions.
+	§ Basic principles of OOP
+		They are encapsulation, abstraction, inheritance and polymorphism.
+	§ Objects
+		They key notion of the OOP is an object.
+	§ Classes
+		Often, many individual objects have similar characteristics. We can say these objects belong to the same type or class.
+		A class is another important notion of OOP. A class describes a common structure of similar objects: their fields and methods. It may be considered a template or a blurprint for similar objects. An object is an individual instance of a class.
+		Any class should be considered a black box in accordance with the principle of encapsulation mentioned above.
+	§ Conclusion about objects and classes
+		1. an object-oriented program consist of a set of interacting objects;
+		2. according to the principle of encapsulation, the internal implementation of the object is not accessible to the user;
+		3. an object may have characteristics: fields and methods;
+		4. an object is an instance of a class (type);
+		5. a class is a more abstract concept than an indicidual object; it may be considered a template or blueprint that describes the common structure of a set of similar objects.
+
+		Example:
+		What can be characterized by a state and behavor?	Object
+		The state of an object is stored in its ___?   fields (or attributes)
+
+Theory: String formatting
+	Example:
+		print('%.3f' % (11 / 3))
+	§1. The str. format() method
+		positional argument
+			Example:
+				print('{0} in the {1} by Frank Sinatra'.format('Strangers', 'Night'))
+		keyword argument:
+			Example:
+				print('The {film} at {theatre} was {adjective}!'.format(film='Lord of the Rings', adjective='incredible', theatre='BFI IMAX'))
+		mixed argument:
+			Example:
+				print('The {0} was {adjective}!'.format('Lord of the Rings', adjective='incredible'))
+			Remember that keyword arguments are always written after positional, or non-keyword, arguments.
+	§2. Formatted string literals
+		f-strings.
+		Examples:
+			name = 'Elizabeth II'
+			title = 'Queen of the United Kingdom and the other Commonwealth realms'
+			reign = 'the longest-lived and longest-reigning British monarch'
+			f'{name}, the {title}, is {reign}.'
+
+			a = 1
+			b = 2
+			print(f'{a} / {b} is {a / b: .3f}')	# 0.500
+
+		
+
+Theory: Magic methods
+	https://hyperskill.org/learn/step/7139
+	§1. What are "magic" methods?
+		They are recognizable in the code of the class definitions because they are enclosed in double underscores: __init__ , for example, is one of those "magic" methods in Python. Since they are characterized by double underscores they are often called dunders.
+		Dunders are not meant to be invoked directly by you or the user of your class, it happens internally on a certain action. For example, we do not explicitly call the __init__ method when we create a new object of the class, but instead, this method is invoked internally. All we need to do is to define the method inside the class in a way that makes sense for our project.
+	§2. __new__ vs __init__
+		So far we've been calling __init__ the constructor of the class, but in reality, it is its initializer. New objects of the class are in fact created by the __new__ method that in its turn calls the __init__ method.
+
+		The first argument of the __new__ method is cls. It represents the class itself, similar to how self represents an instance of the class. This also makes __new__ a different kind of method since it doesn't require an instance of the class. This makes sense since it is supposed to create those instances. The method returns a new instance of the class which is then passed to the __init__ method.
+
+		Usually, there is no need to define a special __new__ method, but it can be useful if we want to return instances of other classes or restrict the number of objects in our class.
+
+		Imagine, for example, that we want to create a class Sun and make sure that we create only one object of this class. We would need to define a class variable that would track the number of instances in the class and forbid the creation of new ones if the limit has been reached.
+
+		class Sun:
+		    n = 0  # number of instances of this class
+
+		    def __new__(cls):
+		        if cls.n == 0: 
+		            cls.n += 1
+		            return object.__new__(cls)  # create new object of the class
+		        return None
+
+		The code above may be a bit unexpected so let's analyze it. We first check that the class variable n has a value of zero. If it does, it means that no instances of the class have been created and we can do that. We then update the class variable and call __new__ method of object class which allows us to create a new instance.
+
+		If we now try to create 2 objects of this class we will not succeed:
+
+		sun1 = Sun()
+		sun2 = Sun()
+
+		print(sun1)	# <__main__.Sun object at 0x1106884a8>
+		print(sun2)	# None
+	§3. __str__ vs __repr__
+		Printing out information and data is very important when programming. You can print the results of calculations for yourself or the user of your program, find the mistakes in the code or print out messages.
+
+		For example, let's consider the class Transaction:
+
+		class Transaction:
+		    def __init__(self, number, funds, status="active"):
+		        self.number = number
+		        self.funds = funds
+		        self.status = status
+
+		If we create a transaction and try to print it out we will not get what we want:
+
+		payment = Transaction("000001", 9999.999)
+		print(payment)
+		# example of the output: <__main__.Transaction object at 0x11068f5f8>
+
+		Instead of the values that we would like to see, we get information about the object itself. This can be altered if we deal with __str__ or __repr__ methods.
+
+		As the names suggest, __str__ defines the behavior of the str() function and __repr__ defines the repr() function. A general rule with the __str__ and __repr__ methods is that the output of the __str__ should be highly readable and the output of the __repr__ should be unambiguous. In other words, __str__ creates a representation for users and __repr__ creates a representation for developers and debuggers. If possible, __repr__ should return Python code that could be used to create this object or, at least, a comprehensive description.
+
+		|||Both __repr__ and __str__ should return a string object!|||
+
+		A good rule is to always define the __repr__ method first since it is the method used by developers in debugging. It is also a fallback method for __str__which means that if the __str__ method isn't defined, in the situations where it's needed, the __repr__ will be called instead. This is, for example, the case with print().
+
+		In our example here, let's create the __repr__ method that would create an unambiguous representation of the transaction and all its attributes.
+
+		class Transaction:
+			    def __init__(self, number, funds, status="active"):
+			        self.number = number
+			        self.funds = funds
+			        self.status = status
+
+			    def __repr__(self):
+			        return "Transaction({}, {})".format(self.number, self.funds)
+
+		Now if we try to print any transaction we will get a standard readable string:
+
+		payment = Transaction("000001", 9999.999)
+		print(payment)
+		# Transaction(000001, 9999.999)
+
+		You can see that we've called print and got the representation from __repr__. Now let's add __str__ and see if things change.
+
+		class Transaction:
+		    def __init__(self, number, funds, status="active"):
+		        self.number = number
+		        self.funds = funds
+		        self.status = status
+
+		    def __repr__(self):
+		        return "Transaction({}, {})".format(self.number, self.funds)
+
+		    def __str__(self):
+		        return "Transaction {} for {} ({})".format(self.number, self.funds, self.status)
+
+
+		payment = Transaction("000001", 9999.999)
+		print(payment)
+		# Transaction 000001 for 9999.999 (active)
+		print(repr(payment))
+		# Transaction(000001, 9999.999)
+
+		Now that we have __str__, when we call print, we get the representation defined there. To see the "official" representation we need to directly call the repr function.
+	§4. Summary
+		Magic methods are said to add "magic" to your classes and that is somewhat true. Dunders really make working with classes much easier and far more efficient.
+
+		In this topic, we've covered only a couple of these magic methods. We highly encourage you to look them up (for example, in "A Guide to Python's Magic Methods" by Rafe Kettler) and try them out in your projects. As for the magic methods for arithmetics and comparisons, we'll look into them in another topic!
