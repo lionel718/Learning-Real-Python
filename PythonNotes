@@ -1,4 +1,4 @@
-Scope:
+Scope
 	https://hyperskill.org/learn/step/6322
 	§ LEGB rule
 		A variable resolution in Python follows the LEGB rule. That means that the interpreter looks for a name in the following order:
@@ -100,7 +100,7 @@ Scope:
 	§ Why do we use global?
 		Well, as was already mentioned above, global scope is one of the easiest ways to retain information between function calls: while local variables disappear the moment the function returns, global variables remain and help functions to transfer the necessary data between each other. Similarly, global variables can enable the communication between more complex processes, such as threads in multithreaded applications.
 
-Introducton to OOP:
+Introducton to OOP
 	https://hyperskill.org/learn/step/3614
 	§ Fundamentals
 		Object-oriented programming (OOP) is a programming paradigm based on the concept of objects that interact with each other to perform thee program functions.
@@ -148,8 +148,6 @@ Theory: String formatting
 			a = 1
 			b = 2
 			print(f'{a} / {b} is {a / b: .3f}')	# 0.500
-
-		
 
 Theory: Magic methods
 	https://hyperskill.org/learn/step/7139
@@ -251,3 +249,103 @@ Theory: Magic methods
 		Magic methods are said to add "magic" to your classes and that is somewhat true. Dunders really make working with classes much easier and far more efficient.
 
 		In this topic, we've covered only a couple of these magic methods. We highly encourage you to look them up (for example, in "A Guide to Python's Magic Methods" by Rafe Kettler) and try them out in your projects. As for the magic methods for arithmetics and comparisons, we'll look into them in another topic!
+
+**********20210118**********
+Theory: Program execution
+	From the programmer's point of view: source code is just a set of statements. But that's not exactly it!
+	There are interpreted or compiled languages.
+	**********Python is an interpreted language.**********
+	§1. The interpreter
+		The software which "reads" your program and executes what is written in it line by line is unexpectedly called Interpreter and that is a part of the standard Python installation package.
+		Another inherent part of it is the standard library with all built0in modules, functions, data, etc.
+		An iinterpreter can be written in basically any programming language. The default interpreter for Python is written in C and is called CPython. Some other Python interpreters are:
+			PyPy is written in a restricted subset of Python called RPython (Restricted Python).
+			JPython translates Python code into Java-compatible byte code, which is later executed by JVM.
+			IronPython is an implemtntaion of Python for .NET framework.
+		In fact, what is really happening during interpretation consists of 3 smaller ones:
+			Compilation -> Bytecode -> Virtual Machine
+		The compiler turns your set of source code into so-called byte code. Byte code is lower level (thus more detailed), platform-independent, and more efficient version of source code, but it's not binary machine code like instructions for an Inter or AMD chip. Byte code is a Python-specific represtation of source code. That's why some Python programs are executed not as fast as the analogs in C++ or C -- traditional compiled languages.
+	§2. Python Virtual Machine
+		After compilation, the byte code is given into the PVM (Python Virtual Machine). In fact, it is nothing more than a big piece of code, that iterates through byte code instructions received from a compiler and executes them one by one, thus performing the desirable operations specified by the programmer. It is an internal part of the Python system and you don't need to install it as it's not a separate program. In fact, the thing which really executes your code is PVM, so we can say it is the last step of executing any Python program.
+	§3. Conclusion
+		Executing a Python program implies both steps: compilation and interpretation.
+
+Theory: Any and all
+	§1. Function any()
+		The result of the any() function call is the boolean value: it returns True if an element or a group of elements in an iterable object are evaluated True.
+		In fact, all numbers other than 0 will be regarded as True, even the negative ones. That part stems from how the bool() function works.
+		So what does the any() function do? First, it takes a list as an argument, then evaluates all the elements of this list to find at least one True, if so, it returns True, otherwise, the result is False.
+		Example:
+			jam_results = []
+			print(any(jam_results))  # False. 
+		The list doesn't contain any elements, and since no True value is to be found the any() function returns False.
+	§2. Function all()
+		The all() function works pretty much like any(). The difference is that all() function checks if all the elements of an iterable object are True and returns True if they are. Otherwise, you get False.
+		Example:
+		jam_results = []
+		print(all(jam_results))  # True
+		The list doesn't contain any elements, but the all() function will return True because it searches for any False values. No False values result in True. Be careful with this scenario.
+	§3. Non-boolean values
+		**********
+		Be cautious, the result of calling the all() function on an empty sequence differs from converting an empty sequence to a boolean value. The result of all(list()) is True, the result of bool(list()) is False.
+		**********
+	§4. Conditions
+		Let's choose a candy box for Valentine's Day. Each box contains several types of sweets. But you are interested in the even amount of candies of each type because, obviously, you will share them with your valentine.
+		Example:
+			box = [10, 20, 33]
+			if any([candy % 2 for candy in box]):
+			    print("It is not a proper gift.")
+			else:
+			    print("Perfect!")
+		Short and sweet.
+
+Thoery: Search in a string
+	§1. Membership testinig
+		"pattern in string"
+	§2. Boolean search in a string
+		startswith() and endswith()
+		Example:
+			email = "email_address@something.com"
+			print(email.startswith("www."))          # False
+			print(email.endswith("@something.com"))  # True
+
+		string.startswith(pattern, start, end)
+		Example:
+			email = "my_email@something.com"
+			print(email.startswith("email", 2))  # False
+			print(email.startswith("email", 3))  # True
+
+			email = "my_email@something.com"
+			print(email.endswith("@", 5, 8))  # False
+			print(email.endswith("@", 5, 9))  # True
+	§3. Element position
+		find() and index()
+		Example:
+			best = "friend"
+			print(best.find("i"))   # 2
+			print(best.index("i"))  # 2
+
+			print(best.find("u"))   # -1
+			print(best.index("u"))  # ValueError
+
+			print(best.find("end"))  # 3
+
+			magic = "abracadabra"
+			print(magic.find("ra"))  # 2
+
+		string.find(pattern, start, end).
+		Example:
+			print(magic.find("ra", 5))      # 9
+			print(magic.find("ra", 5, 10))  # -1
+
+		Alternatively, we can use methods rfind() and rindex() to search backward from the end of the string.
+		Example:
+			print(magic.rfind("ra"))  # 9
+			print(magic.rindex("a"))  # 10
+	§4. Element number
+		count()
+		Example:
+			magic = "abracadabra"
+			print(magic.count("abra"))  # 2
+			print(magic.count("a"))     # 5
+**********2021**************
