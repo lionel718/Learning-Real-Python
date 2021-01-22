@@ -105,6 +105,7 @@ Introducton to OOP
 	§ Fundamentals
 		Object-oriented programming (OOP) is a programming paradigm based on the concept of objects that interact with each other to perform thee program functions.
 	§ Basic principles of OOP
+		# HUAWEI 面试有考到对四个特点的理解
 		They are encapsulation, abstraction, inheritance and polymorphism.
 	§ Objects
 		They key notion of the OOP is an object.
@@ -348,4 +349,4 @@ Thoery: Search in a string
 			magic = "abracadabra"
 			print(magic.count("abra"))  # 2
 			print(magic.count("a"))     # 5
-**********2021**************
+**********20210122**********
