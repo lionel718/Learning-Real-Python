@@ -377,3 +377,60 @@ Theory: Random module
 		ramdom.gauss(mu, sigma)
 			returns Gaussian distribution
 		Attention: The pseudo-random generators of the random module should NOT be used for security purposes. If you are intending to work with passwords, security tokens and other sensitive data, check out the secrets module. It's considered more reliable since it generates secure random numbers.
+**********20210123**********
+Theory: Files
+	§1. What is a file
+		Computers need to store a tremendous amount of data. On most operating systems, this data is stored in files.
+		A user or a program can open, read, modify, save, and close files.
+	§2. Contents and icons
+	§3. Metadata (元数据)
+		Metadata is the additional information about the file stored in computer memory. Let's take a look at some examples of metadata that file can have.
+			Name
+			Extention
+			Format, or type
+			Size
+	§4. Attributes
+		A special kind of metadata is file attributes. Each attribute can be either set (toggle on) or cleared (toggle off). For example:
+			Hidden (H)
+			System (S)
+			Read-only (R)
+	§5. Directories
+		
+Theory: Introduction to databases
+	§1. Database
+		A database is a collection of data that is specifically organized for rapid search and retrieval processed by a computer.
+		Usually, the information in databases is compressed and stored as binaries rather than plain text.
+		Unlike us, computers can easily understand the binary format of data, but what allows them to read and write it correctly? It is a program called Database Management System that controls the data in a database.
+	§2. Database Management System
+		Database Management System (DBMS) is a type pf software that allows user to define, create, and control data in database.
+		Although it sounds like all databases have different syntax, most of them actually implement common standards. Almost all relational databases use the SQL standard, so you can apply the same commands in different DBMSs.
+	§3. Access to data
+		Databases provide schemas and metadata that allow fow a quick search of the needed data.
+	§4. Data consistency
+		One of the best features of databases is their ability to keep and restore the data correctly. It doesn't mean that the DBMS knows how to be correct, but once you define the correctness with the configuration or schema, you can be sure that nothing will break these rules. DBMS can provide you with formats you can use for your data. You can also set up all the tests and constraints that you want to have.
+	§5. Conclusion
+		With databases you can:
+			Store, retrieve and update data;
+			Get metadata and data dictionaries;
+			Access database remotely;
+			Restrict accesses to data;
+			Make concurrent updates;
+			Recover to some point in time;
+			Check the rules for data consistency automatically.
+
+Theory: What is SQL
+	SQL (Structured Query Language) is a domain-specific programming language designed to handle data in tables.
+	§1. Calculating statistics
+		SQL is the standard data manipulation language used by data-driven companies around the world.
+	§2. S is for Structured
+		SQL is a language used to extract and update data structured as tables. This kind of data appears in various application areas such as an online store that utilizes a special software system to hold and access tables, known as a Relational Database Management System (RDBMS).
+	§3. Q is for Query
+		SQL is a pragramming language whth a large set of data processing features. It is declarative, meaning a statement written in SQL is a query that tells the system what should be done or evaluated but doesn't specify how.
+		To help illustrate this, let's focus on a simple piece of functionality: extracting data from a table. If we have a table named Customers, a query to extract all rows and columns from it would be written in the following way:
+		SELECT * FROM Customers;
+		It's standard practice to end each SQL statement with a semicolon, known as a statement terminator.
+		Keywords such as SELECT are not case sensitive in the SQL language. They can be in any letter case but are often written in all caps to make them more visible.
+	§4. L is for Language
+		You can read the simple query in the above example as "select everything from customers." SQL was designed to be as similar as possible to a natural language. Its declarative nature helps to hide the operation's complexities, enabling the user to define what is required in a relatively straightforward way. The system then analyses the query, chooses the control flow, and executes it.
+	§5. Conclusion
+		SQL is a domain-specific, declarative language used when working with structured data.
