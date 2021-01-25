@@ -8,7 +8,7 @@ Scope
 		4. Built-in.
 	§ About "global" and "nonlocal"
 		global:
-			You can't change the value of a global variable inside the function wiithout using the global keywords:
+			You can't change the value of a global variable inside the function without using the global keywords:
 
 			"""
 			x = 1
@@ -48,7 +48,8 @@ Scope
 			x = 1
 			def func():
 				print(x)	# 此时使用的全局变量 x = 1, “被引用”
-				x = 2		# 函数内部想要修改全局变量, 不可行, 所以报错信息是“局部变量 x 在赋值前已经被引用”
+				x = 2		# 函数内部想要修改全局变量, 不可行,
+							# 所以报错信息是“局部变量 x 在赋值前已经被引用”
 			func()			# 报错, local variable 'x' referenced before assignment
 			"""
 
